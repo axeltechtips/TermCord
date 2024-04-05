@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background-color: #000;
+            color: #0F0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        #chat {
+            height: 70vh;
+            overflow: auto;
+            padding: 10px;
+            position: relative;
+        }
+        .typing-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 10px;
+            display: none;
+            color: #999;
+            opacity: 0;
+            animation: fade 1s linear infinite;
+        }
+        @keyframes fade {
+            0% { opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        #input {
+            width: 100%;
+            background-color: #000;
+            border: none;
+            color: #0F0;
+            outline: none;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat"></div>
+    <input id="input" placeholder="Enter your token to login" onkeydown="checkInput(event)">
+    <script>
+        var token = ''; // Variable to store token
+        var currentChannelId = ''; // Variable to store the current channel ID
+        var speechSynth = window.speechSynthesis; // Speech synthesis object
+
+        window.onload = function() {
+            document.getElementById('chat').innerHTML += 'Welcome to TermCord, your virtual terminal for Discord, bringing the power of the command line to your web browser!<br>';
+        };
+
+        function checkInput(event) {
+            if (event.key === "Enter") {
+                var input = document.getElementById('input');
+                var chat = document.getElementById('chat');
+                var command = input.value.trim();
+                
+                if (command.startsWith('!login ')) {
+                    token = command.substring(7); // Extract token from command
+                    login(token);
+                } else if (command === '!help') {
+                    chat.innerHTML += '<b>Available commands:</b><br>!login - Log in with your token<br>!dm - View your direct messages<br>!servers - View your servers<br>!clear - Clear the terminal screen<br>';
+                } else if (command === '!clear') {
+                    chat.innerHTML = ''; // Clears the chat content
+                } else if (command === '!servers') {
+                    fetchServers();
+                } else if (command === '!dm') {
+                    fetchDMs(token); // Fetch and display DMs
+                } else if (command.startsWith('!send ')) {
+                    var message = command.substring(6);
+                    sendMessage(message);
+                } else if (command === '!exit') {
+                    exitDM();
+                } else if (command === 'neofetch') {
+                    chat.innerHTML += 'This isn\'t a Linux terminal unfortunately :(<br>';
+                } else {
+                    chat.innerHTML += '<span style="color: red;">Invalid command: ' + command + '</span><br>'; // Display invalid command message
+                }
+                
+                input.value = '';
+            }
+        }
+
+        function login(token) {
+            fetch('https://discord.com/api/v9/users/@me', {
+                headers: {
+                    'Authorization': token
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Failed to log in');
+                }
+            })
+            .then(data => {
+                // Process login response data as needed
+                console.log(data);
+                var username = data.username;
+                var discriminator = data.discriminator;
+                document.getElementById('chat').innerHTML += 'Hello, ' + username + '#' + discriminator + '!<br>';
+                document.getElementById('input').placeholder = username + '@termcord-web:~$';
+            })
+            .catch(error => {
+                console.error('Login error:', error);
+                document.getElementById('chat').innerHTML += '<span style="color: red;">Failed to log in. Please check your token and try again.</span><br>';
+            });
+        }
+
+        function fetchDMs(token) {
+            fetch('https://discord.com/api/v9/users/@me/channels', {
+                headers: {
+                    'Authorization': token
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Failed to fetch DMs');
+                }
+            })
+            .then(data => {
+                // Process DMs data as needed
+                console.log('DMs:', data);
+                // Display clickable links for each DM channel
+                var dmInfo = data.map(dm => {
+                    var recipients = dm.recipients.map(recipient => recipient.username).join(', ');
+                    return '<a href="#" onclick="selectChannel(\'' + dm.id + '\')">' + recipients + '</a>';
+                }).join('<br>');
+                document.getElementById('chat').innerHTML += dmInfo + '<br>';
+            })
+            .catch(error => {
+                console.error('Fetch DMs error:', error);
+            });
+        }
+
+        function fetchMessages(token, channelId) {
+            fetch(`https://discord.com/api/v9/channels/${channelId}/messages`, {
+                headers: {
+                    'Authorization': token
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Failed to fetch messages');
+                }
+            })
+            .then(data => {
+                // Process messages data as needed
+                console.log('Messages:', data);
+                // Display messages
+                var chat = document.getElementById('chat');
+                data.forEach(message => {
+                    if (message.content.startsWith('http') && (message.content.endsWith('.jpg') || message.content.endsWith('.jpeg') || message.content.endsWith('.png'))) {
+                        chat.innerHTML += message.author.username + ': <a href="' + message.content + '" target="_blank">' + message.content + '</a><br>';
+                    } else {
+                        chat.innerHTML += message.author.username + ': ' + message.content + '<br>';
+                    }
+                });
+                // Scroll to the bottom of the chat
+                chat.scrollTop = chat.scrollHeight;
+            })
+            .catch(error => {
+                console.error('Fetch messages error:', error);
+            });
+        }
+
+        function fetchServers() {
+            fetch('https://discord.com/api/v9/users/@me/guilds', {
+                headers: {
+                    'Authorization': token
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Failed to fetch servers');
+                }
+            })
+            .then(data => {
+                // Process servers data as needed
+                console.log('Servers:', data);
+                // Display server names
+                var serverNames = data.map(server => server.name).join('<br>');
+                document.getElementById('chat').innerHTML += serverNames + '<br>';
+            })
+            .catch(error => {
+                console.error('Fetch servers error:', error);
+            });
+        }
+
+        function sendMessage(message) {
+            var chat = document.getElementById('chat');
+            if (currentChannelId !== '') {
+                sendDMMessage(token, currentChannelId, message);
+            } else {
+                chat.innerHTML += '<span style="color: red;">No active DM channel selected. Use !dm to view your direct messages and select a channel.</span><br>';
+            }
+        }
+
+        function sendDMMessage(token, channelId, message) {
+            fetch(`https://discord.com/api/v9/channels/${channelId}/messages`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    content: message
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to send message');
+                }
+                // Message sent successfully
+                return response.json();
+            })
+            .then(data => {
+                // Display confirmation message
+                var chat = document.getElementById('chat');
+                if (data.content.startsWith('http') && (data.content.endsWith('.jpg') || data.content.endsWith('.jpeg') || data.content.endsWith('.png'))) {
+                    chat.innerHTML += data.author.username + ': <a href="' + data.content + '" target="_blank">' + data.content + '</a><br>';
+                } else {
+                    chat.innerHTML += data.author.username + ': ' + data.content + '<br>';
+                }
+                // Scroll to the bottom of the chat
+                chat.scrollTop = chat.scrollHeight;
+            })
+            .catch(error => {
+                console.error('Send message error:', error);
+                document.getElementById('chat').innerHTML += '<span style="color: red;">Failed to send message. Please try again.</span><br>';
+            });
+        }
+
+        function selectChannel(channelId) {
+            currentChannelId = channelId;
+            document.getElementById('chat').innerHTML = ''; // Clear chat before loading messages
+            fetchMessages(token, channelId);
+            listenTyping(channelId);
+        }
+
+        function exitDM() {
+            currentChannelId = '';
+            document.getElementById('chat').innerHTML = ''; // Clear chat
+        }
+
+        function listenTyping(channelId) {
+            var chat = document.getElementById('chat');
+            var typingIndicator = document.createElement('span');
+            typingIndicator.className = 'typing-indicator'; // Add class for styling
+            typingIndicator.textContent = 'Typing...';
+            chat.appendChild(typingIndicator);
+
+            var typingInterval;
+
+            // Listen for keydown events to detect typing
+            document.getElementById('input').addEventListener('keydown', function() {
+                clearInterval(typingInterval); // Clear previous interval
+                typingIndicator.style.display = 'inline'; // Show typing indicator
+                typingIndicator.style.opacity = 1; // Make typing indicator fully visible
+
+                // Start a new interval to fade out the typing indicator
+                typingInterval = setInterval(function() {
+                    typingIndicator.style.opacity -= 0.1; // Reduce opacity gradually
+                    if (typingIndicator.style.opacity <= 0) {
+                        typingIndicator.style.display = 'none'; // Hide typing indicator when fully faded out
+                        clearInterval(typingInterval); // Stop the interval
+                    }
+                }, 100);
+            });
+        }
+
+        // Function to fetch recent messages at regular intervals
+        function fetchRecentMessages(token, channelId) {
+            setInterval(function() {
+                if (currentChannelId === channelId) {
+                    fetchMessages(token, channelId);
+                }
+            }, 5000); // Polling interval: 5 seconds
+        }
+    </script>
+</body>
+</html>
