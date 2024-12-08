@@ -1,0 +1,14 @@
+C:\Users\Kash\source\repos\TermCord\TermCord\bin\Debug\net8.0\TermCord.exe
+C:\Users\Kash\source\repos\TermCord\TermCord\bin\Debug\net8.0\TermCord.deps.json
+C:\Users\Kash\source\repos\TermCord\TermCord\bin\Debug\net8.0\TermCord.runtimeconfig.json
+C:\Users\Kash\source\repos\TermCord\TermCord\bin\Debug\net8.0\TermCord.dll
+C:\Users\Kash\source\repos\TermCord\TermCord\bin\Debug\net8.0\TermCord.pdb
+C:\Users\Kash\source\repos\TermCord\TermCord\obj\Debug\net8.0\TermCord.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kash\source\repos\TermCord\TermCord\obj\Debug\net8.0\TermCord.AssemblyInfoInputs.cache
+C:\Users\Kash\source\repos\TermCord\TermCord\obj\Debug\net8.0\TermCord.AssemblyInfo.cs
+C:\Users\Kash\source\repos\TermCord\TermCord\obj\Debug\net8.0\TermCord.csproj.CoreCompileInputs.cache
+C:\Users\Kash\source\repos\TermCord\TermCord\obj\Debug\net8.0\TermCord.dll
+C:\Users\Kash\source\repos\TermCord\TermCord\obj\Debug\net8.0\refint\TermCord.dll
+C:\Users\Kash\source\repos\TermCord\TermCord\obj\Debug\net8.0\TermCord.pdb
+C:\Users\Kash\source\repos\TermCord\TermCord\obj\Debug\net8.0\TermCord.genruntimeconfig.cache
+C:\Users\Kash\source\repos\TermCord\TermCord\obj\Debug\net8.0\ref\TermCord.dll
