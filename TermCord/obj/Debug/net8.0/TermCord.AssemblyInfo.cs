@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TermCord")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ea203f0f75a61df0b46d3ced7b170370b75858ec")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c17438a534cab27eff22706bff781fca571db92e")]
 [assembly: System.Reflection.AssemblyProductAttribute("TermCord")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TermCord")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

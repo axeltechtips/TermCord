@@ -1,9 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Kash\\source\\repos\\TermCord\\",
+  "WorkspaceRootPath": "C:\\Users\\Kash\\Documents\\GitHub\\TermCord\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A1E4BFEA-EAC8-4485-96D3-96A1C5C07661}|TermCord\\TermCord.csproj|c:\\users\\kash\\source\\repos\\termcord\\termcord\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{A1E4BFEA-EAC8-4485-96D3-96A1C5C07661}|TermCord\\TermCord.csproj|c:\\users\\kash\\documents\\github\\termcord\\termcord\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A1E4BFEA-EAC8-4485-96D3-96A1C5C07661}|TermCord\\TermCord.csproj|solutionrelative:termcord\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -20,11 +20,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Kash\\source\\repos\\TermCord\\TermCord\\Program.cs",
+              "DocumentMoniker": "C:\\Users\\Kash\\Documents\\GitHub\\TermCord\\TermCord\\Program.cs",
               "RelativeDocumentMoniker": "TermCord\\Program.cs",
-              "ToolTip": "C:\\Users\\Kash\\source\\repos\\TermCord\\TermCord\\Program.cs*",
-              "RelativeToolTip": "TermCord\\Program.cs*",
-              "ViewState": "AgIAAKkBAAAAAAAAAAAiwNABAAAAAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\Kash\\Documents\\GitHub\\TermCord\\TermCord\\Program.cs",
+              "RelativeToolTip": "TermCord\\Program.cs",
+              "ViewState": "AgIAAKgBAAAAAAAAAAAiwM8BAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-08T01:17:56.859Z",
               "EditorCaption": ""
